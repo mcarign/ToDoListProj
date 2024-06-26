@@ -1,12 +1,9 @@
 package GUI;
 
-import com.sun.source.tree.UsesTree;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.ImageObserver;
 import java.util.LinkedList;
 
 public class MainGUI implements ActionListener {
@@ -25,6 +22,8 @@ public class MainGUI implements ActionListener {
         frame.setLayout(new BorderLayout());
         frame.setLocation(600, 300);
         frame.setMinimumSize(new Dimension(600, 700));
+        frame.setMaximumSize(new Dimension(700, 800));
+        frame.setPreferredSize(new Dimension(600, 700));
 
         aesPanel = new JPanel();
         aesPanel.setLayout(new GridLayout(3, 1));
@@ -49,21 +48,26 @@ public class MainGUI implements ActionListener {
         aesPanel.add(editEvent);
         aesPanel.add(saveEvent);
 
+        JScrollPane scrollPane = new JScrollPane(listPanel);
         bg = new ButtonGroup();
         // Add a reader to see if user has saved activities for the day
         eventList = new LinkedList<>();
-        JToggleButton toggle = new JToggleButton("hi");
-        toggle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        toggle.setPreferredSize(new Dimension(500, 70));
-        toggle.setPreferredSize(new Dimension(500, 70));
-        eventList.push(toggle);
-        for(JToggleButton tg : eventList){
-            bg.add(tg);
-            listPanel.add(tg);
+        for (int i = 0; i < 12; i++) {
+            JToggleButton toggle = new JToggleButton("Event " + (i + 1));
+            toggle.setAlignmentX(Component.CENTER_ALIGNMENT);
+            Dimension buttonSize = new Dimension(500, 70);
+            toggle.setMinimumSize(buttonSize);
+            toggle.setPreferredSize(buttonSize);
+            toggle.setMaximumSize(new Dimension(Integer.MAX_VALUE, buttonSize.height));
+
+            bg.add(toggle);
+            eventList.add(toggle);
+            listPanel.add(toggle);
+            listPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }
 
+        frame.add(scrollPane);
         frame.add(aesPanel, BorderLayout.WEST);
-        frame.add(listPanel, BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
     }
